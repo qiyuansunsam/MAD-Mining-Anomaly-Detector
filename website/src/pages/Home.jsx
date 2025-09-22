@@ -10,12 +10,12 @@ const Home = () => {
 
   // Media items - demo video plus screenshots
   const mediaItems = [
-    { type: 'video', src: '/demo-video.mp4', title: 'Demo Video' },
-    { type: 'image', src: '/screenshots/Screenshot 2025-09-22 092407.png', title: 'Screenshot 1' },
-    { type: 'image', src: '/screenshots/Screenshot 2025-09-22 092433.png', title: 'Screenshot 2' },
-    { type: 'image', src: '/screenshots/Screenshot 2025-09-22 092512.png', title: 'Screenshot 3' },
-    { type: 'image', src: '/screenshots/Screenshot 2025-09-22 092519.png', title: 'Screenshot 4' },
-    { type: 'image', src: '/screenshots/Screenshot 2025-09-22 092706.png', title: 'Screenshot 5' },
+    { type: 'video', src: `${process.env.PUBLIC_URL}/demo-video.mp4`, title: 'Demo Video' },
+    { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092407.png`, title: 'Screenshot 1' },
+    { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092433.png`, title: 'Screenshot 2' },
+    { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092512.png`, title: 'Screenshot 3' },
+    { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092519.png`, title: 'Screenshot 4' },
+    { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092706.png`, title: 'Screenshot 5' },
   ];
 
   useEffect(() => {

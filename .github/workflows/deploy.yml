@@ -24,6 +24,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: website/package-lock.json
+      
+      - name: Install dependencies
+        run: cd website && npm ci
+      
+      - name: Build website
+        run: cd website && npm run build
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
