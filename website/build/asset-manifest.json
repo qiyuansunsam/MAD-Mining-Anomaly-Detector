@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/MAD-Mining-Anomaly-Detector/static/css/main.e274362b.css",
-    "main.js": "/MAD-Mining-Anomaly-Detector/static/js/main.dd7f600a.js",
+    "main.js": "/MAD-Mining-Anomaly-Detector/static/js/main.190b575b.js",
     "index.html": "/MAD-Mining-Anomaly-Detector/index.html",
     "main.e274362b.css.map": "/MAD-Mining-Anomaly-Detector/static/css/main.e274362b.css.map",
-    "main.dd7f600a.js.map": "/MAD-Mining-Anomaly-Detector/static/js/main.dd7f600a.js.map"
+    "main.190b575b.js.map": "/MAD-Mining-Anomaly-Detector/static/js/main.190b575b.js.map"
   },
   "entrypoints": [
     "static/css/main.e274362b.css",
-    "static/js/main.dd7f600a.js"
+    "static/js/main.190b575b.js"
   ]
 }

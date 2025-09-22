@@ -33,7 +33,7 @@ mad-app/backend/models/
 backend/runs/
 *.log
 training_results.json
-
+*.zip
 # Build outputs and distributions
 dist/
 mad-app/build/

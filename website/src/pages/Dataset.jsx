@@ -164,16 +164,16 @@ class_id center_x center_y width height
                 return (
                   <div key={idx} className="overflow-hidden">
                     <img
-                      src={`/samples/${selectedDataset}_${sampleNum}.jpg`}
+                      src={`${process.env.PUBLIC_URL}/samples/${selectedDataset}_${sampleNum}.jpg`}
                       alt={`${datasets[selectedDataset].name} Sample ${sampleNum}`}
                       className="w-full h-48 object-cover rounded-lg"
                       onError={(e) => {
-                        console.log(`Failed to load: /samples/${selectedDataset}_${sampleNum}.jpg`);
+                        console.log(`Failed to load: ${process.env.PUBLIC_URL}/samples/${selectedDataset}_${sampleNum}.jpg`);
                         // Try alternative extensions
                         const alternatives = [
-                          `/samples/${selectedDataset}_${sampleNum}.jpeg`,
-                          `/samples/${selectedDataset}_${sampleNum}.JPG`,
-                          `/samples/${selectedDataset}_${sampleNum}.png`
+                          `${process.env.PUBLIC_URL}/samples/${selectedDataset}_${sampleNum}.jpeg`,
+                          `${process.env.PUBLIC_URL}/samples/${selectedDataset}_${sampleNum}.JPG`,
+                          `${process.env.PUBLIC_URL}/samples/${selectedDataset}_${sampleNum}.png`
                         ];
                         
                         let tried = e.target.dataset.tried ? parseInt(e.target.dataset.tried) : 0;

@@ -3,7 +3,7 @@ import { Download, Mail, Github, ChevronLeft, ChevronRight, Play, Pause, Volume2
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [screenshots, setScreenshots] = useState([]);
   const videoRef = useRef(null);
@@ -91,12 +91,22 @@ const Home = () => {
                     className={`w-full h-full object-cover rounded-xl shadow-2xl transition-all duration-300 ${
                       media.position === 'center' ? 'filter-none' : 'filter blur-[1px] hover:blur-none'
                     }`}
-                    autoPlay
                     loop
                     muted
                     playsInline
+                    preload="metadata"
+                    onLoadedData={() => {
+                      // Auto-play only if it's the center video and user hasn't interacted yet
+                      if (media.position === 'center' && videoRef.current && !isVideoPlaying) {
+                        videoRef.current.play().catch(() => {
+                          // Autoplay failed, user needs to click play
+                          console.log('Autoplay prevented by browser');
+                        });
+                      }
+                    }}
                   >
                     <source src={media.src} type="video/mp4" />
+                    Your browser does not support the video tag.
                   </video>
                 ) : (
                   <img
