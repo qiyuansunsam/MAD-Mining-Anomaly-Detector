@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/MAD-Mining-Anomaly-Detector/static/css/main.e274362b.css",
+    "main.js": "/MAD-Mining-Anomaly-Detector/static/js/main.d8ddc1d1.js",
+    "index.html": "/MAD-Mining-Anomaly-Detector/index.html",
+    "main.e274362b.css.map": "/MAD-Mining-Anomaly-Detector/static/css/main.e274362b.css.map",
+    "main.d8ddc1d1.js.map": "/MAD-Mining-Anomaly-Detector/static/js/main.d8ddc1d1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e274362b.css",
+    "static/js/main.d8ddc1d1.js"
+  ]
+}
