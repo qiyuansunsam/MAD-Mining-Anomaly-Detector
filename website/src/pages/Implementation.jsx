@@ -15,7 +15,7 @@ const Implementation = () => {
         {
           name: 'Windows (Recommended)',
           description: 'Most stable version - 581MB',
-          downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-1.0.0-win.zip',
+          downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/anomaly-detector-windows-complete.zip',
           stable: true
         },
         {
@@ -26,17 +26,17 @@ const Implementation = () => {
             {
               name: 'AppImage (Recommended)',
               description: 'Portable application for all Linux distributions',
-              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-1.0.0-linux-x86_64.AppImage'
+              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-linux-x86_64.AppImage'
             },
             {
               name: 'DEB Package',
               description: 'For Debian/Ubuntu systems',
-              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-1.0.0-linux-amd64.deb'
+              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-linux-amd64.deb'
             },
             {
               name: 'TAR.GZ Archive',
               description: 'For manual installation',
-              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-1.0.0-linux-x64.tar.gz'
+              downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/Anomaly-Detector-linux-x64.tar.gz'
             }
           ]
         }

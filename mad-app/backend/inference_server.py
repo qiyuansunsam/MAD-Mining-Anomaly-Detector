@@ -51,13 +51,13 @@ app.add_middleware(
 # Model configurations
 MODEL_CONFIGS = {
     'coal_miner': {
-        'path': 'backend/models/coal_miner_model.pt',
+        'path': 'models/coal_miner_model.pt',
         'confidence': 0.5,
         'iou': 0.45,
         'classes': ['anomaly', 'person', 'equipment']
     },
     'hydraulic_support': {
-        'path': 'backend/models/hydraulic_support_model.pt',
+        'path': 'models/hydraulic_support_model.pt',
         'confidence': 0.55,
         'iou': 0.45,
         'classes': ['support', 'damage', 'anomaly']
@@ -108,7 +108,7 @@ class ModelManager:
     
     def load_models(self):
         """Load all available models"""
-        models_dir = Path('backend/models')
+        models_dir = Path('models')
         models_dir.mkdir(parents=True, exist_ok=True)
         
         for model_name, config in MODEL_CONFIGS.items():
@@ -132,8 +132,13 @@ class ModelManager:
                 # Use default YOLOv8n if custom model doesn't exist
                 logger.info(f"Model {model_name} not found, using YOLOv8n")
                 self.models[model_name] = YOLO('yolov8n.pt')
-                # Save the default model to the expected path
-                self.models[model_name].save(str(model_path))
+                # Save the default model to the expected path (ensure directory exists)
+                try:
+                    model_path.parent.mkdir(parents=True, exist_ok=True)
+                    self.models[model_name].save(str(model_path))
+                except Exception as e:
+                    logger.warning(f"Could not save default model {model_name}: {e}")
+                    # Continue anyway since we have the model loaded
     
     def detect(self, image: np.ndarray, model_name: str) -> Dict[str, Any]:
         """Run detection on an image"""
