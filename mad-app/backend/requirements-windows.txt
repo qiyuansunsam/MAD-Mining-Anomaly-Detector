@@ -1,16 +1,17 @@
-# Core dependencies (cross-platform)
+# Windows-specific requirements
+# Core dependencies
 fastapi>=0.104.1
 uvicorn[standard]>=0.24.0
 python-multipart>=0.0.6
 
-# Computer Vision and ML (cross-platform compatible)
+# Computer Vision and ML (Windows optimized)
 ultralytics>=8.1.0
-opencv-python-headless>=4.9.0  # Headless version for better server compatibility
+opencv-python>=4.9.0  # Full OpenCV for Windows
 Pillow>=10.2.0
-numpy>=1.26.0,<2.0.0  # Pin numpy to avoid compatibility issues
+numpy>=1.26.0,<2.0.0
 scipy>=1.11.4
 
-# PyTorch (CPU version for cross-platform compatibility)
+# PyTorch (Windows CPU version)
 torch>=2.1.0,<2.3.0 --index-url https://download.pytorch.org/whl/cpu
 torchvision>=0.16.0,<0.18.0 --index-url https://download.pytorch.org/whl/cpu
 torchaudio>=2.1.0,<2.3.0 --index-url https://download.pytorch.org/whl/cpu
@@ -30,6 +31,8 @@ loguru>=0.7.2
 # Additional utilities
 python-dotenv>=1.0.0
 requests>=2.31.0
-
-# Cross-platform process management
 psutil>=5.9.6
+
+# Windows-specific
+pywin32>=306  # Windows API support
+wmi>=1.5.1    # Windows Management Instrumentation

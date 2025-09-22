@@ -6,6 +6,10 @@
   "homepage": "./",
   "private": true,
   "type": "commonjs",
+  "author": {
+    "name": "Mining Anomaly Detection Team",
+    "email": "support@mad-detector.com"
+  },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@emotion/react": "^11.11.1",
@@ -46,7 +50,13 @@
     "dist": "npm run build && electron-builder",
     "dist:win": "npm run build && electron-builder --win",
     "dist:mac": "npm run build && electron-builder --mac",
-    "dist:linux": "npm run build && electron-builder --linux"
+    "dist:linux": "npm run build && electron-builder --linux",
+    "dist:all": "npm run build && electron-builder --win --mac --linux",
+    "dist:win:portable": "npm run build && electron-builder --win --config.win.target=portable",
+    "dist:linux:appimage": "npm run build && electron-builder --linux --config.linux.target=AppImage",
+    "dist:linux:deb": "npm run build && electron-builder --linux --config.linux.target=deb",
+    "dist:mac:dmg": "npm run build && electron-builder --mac --config.mac.target=dmg",
+    "dist:mac:zip": "npm run build && electron-builder --mac --config.mac.target=zip"
   },
   "eslintConfig": {
     "extends": [
@@ -94,19 +104,45 @@
     "win": {
       "target": {
         "target": "zip",
-        "arch": [
-          "x64"
-        ]
+        "arch": ["x64"]
       },
       "artifactName": "${productName}-${version}-win.${ext}"
     },
     "mac": {
-      "target": "dmg",
-      "icon": "build/icon.icns"
+      "target": [
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "build/icon.icns",
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
+      "category": "public.app-category.productivity"
     },
     "linux": {
-      "target": "AppImage",
-      "icon": "build/icon.png"
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "tar.gz",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.png",
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
+      "category": "Science",
+      "maintainer": "Mining Anomaly Detection Team <support@mad-detector.com>",
+      "desktop": {
+        "Name": "Anomaly Detector",
+        "Comment": "Modern Anomaly Detection Application",
+        "Categories": "Science;Education;Engineering"
+      }
     }
   }
 }

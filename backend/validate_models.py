@@ -36,12 +36,12 @@ def validate_model(model_path, dataset_path, model_name):
         results = model.val(
             data=dataset_path,
             imgsz=640,
-            batch=16,
+            batch=8,  # Reduced batch size for better memory management
             conf=0.001,
             iou=0.6,
             max_det=300,
             half=False,
-            device='auto',
+            device='cpu',  # Use CPU to avoid CUDA issues
             dnn=False,
             plots=False,
             save=False,
@@ -55,13 +55,54 @@ def validate_model(model_path, dataset_path, model_name):
         
         # Extract metrics with safe conversion
         def safe_round(value, decimals=4):
+            """Safely convert various numeric types to rounded floats.
+            
+            Handles:
+            - Python scalars (int, float)
+            - NumPy scalars (numpy.float64, etc.)
+            - Single-element arrays
+            - Multi-element arrays (uses mean)
+            - PyTorch tensors
+            - None values
+            """
             if value is None:
                 return 0.0
-            if hasattr(value, 'item'):  # Handle numpy scalars
-                return round(float(value.item()), decimals)
-            elif isinstance(value, (int, float)):
+            
+            # Handle numpy arrays
+            if isinstance(value, np.ndarray):
+                if value.size == 0:  # Empty array
+                    return 0.0
+                elif value.size == 1:  # Single element array
+                    return round(float(value.item()), decimals)
+                else:  # Multi-element array - use mean for overall metric
+                    return round(float(np.mean(value)), decimals)
+            
+            # Handle numpy scalars and other types with .item()
+            if hasattr(value, 'item'):
+                try:
+                    return round(float(value.item()), decimals)
+                except (ValueError, TypeError):
+                    pass
+            
+            # Handle regular Python numbers
+            if isinstance(value, (int, float)):
                 return round(float(value), decimals)
-            else:
+            
+            # Handle PyTorch tensors
+            if hasattr(value, 'cpu') and hasattr(value, 'numpy'):
+                try:
+                    arr = value.cpu().numpy()
+                    if arr.size == 1:
+                        return round(float(arr.item()), decimals)
+                    else:
+                        return round(float(np.mean(arr)), decimals)
+                except (ValueError, TypeError):
+                    pass
+            
+            # Fallback: try direct conversion
+            try:
+                return round(float(value), decimals)
+            except (ValueError, TypeError):
                 return 0.0
         
         metrics = {
@@ -110,6 +151,14 @@ def validate_model(model_path, dataset_path, model_name):
         print(f"  Inference speed: {metrics['inference_speed_fps']} FPS")
         print(f"  Validation time: {metrics['validation_time_seconds']} seconds")
         
+        # Clean up memory after validation
+        del model
+        del results
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        
         return metrics
         
     except Exception as e:
@@ -144,10 +193,19 @@ def measure_inference_speed(model_path, sample_image_path, iterations=100):
         avg_inference_time = total_time / iterations
         fps = 1.0 / avg_inference_time if avg_inference_time > 0 else 0.0
         
-        return {
+        result = {
             'avg_inference_time_ms': round(avg_inference_time * 1000, 2),
             'inference_fps': round(fps, 2)
         }
+        
+        # Clean up memory after inference testing
+        del model
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        
+        return result
     except Exception as e:
         print(f"Error measuring inference speed: {str(e)}")
         return {
@@ -259,6 +317,14 @@ def main():
         if 'error' not in metrics:
             valid_models += 1
             total_size += metrics['model_size_mb']
+        
+        # Additional memory cleanup between models
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        
+        print(f"Completed {model_name} ({i}/{total_models}). Memory cleaned up.")
     
     # Generate summary
     if valid_models > 0:

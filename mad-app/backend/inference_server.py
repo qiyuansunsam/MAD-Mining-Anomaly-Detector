@@ -87,11 +87,13 @@ MODEL_CONFIGS = {
         'classes': ['towline', 'damage', 'obstruction']
     },
     'general': {
-        'path': 'backend/models/general_model.pt',
+        'path': 'models/general_model.pt',
         'confidence': 0.45,
         'iou': 0.4,
-        'classes': ['anomaly', 'helmet', 'person', 'equipment', 'coal', 'towline'],
-        'available': False  # Mark as unavailable
+        'classes': ['coal_miner_person', 'hydraulic_support_support', 'hydraulic_support_plate', 
+                   'hydraulic_support_damage', 'large_coal_large_coal', 'mine_safety_helmet_helmet', 
+                   'miner_behavior_safe', 'miner_behavior_unsafe', 'towline_normal', 'towline_damage'],
+        'available': True  # Enable general model
     }
 }
 
