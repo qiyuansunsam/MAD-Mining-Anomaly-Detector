@@ -11,7 +11,7 @@ const Implementation = () => {
       description: 'Download the latest Windows distribution (581MB)',
       code: 'anomaly-detector-windows-complete.zip',
       status: 'required',
-      downloadLink: 'https://github.com/qiyuansunsam/mad.io/releases/latest/download/anomaly-detector-windows-complete.zip'
+      downloadLink: 'https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/anomaly-detector-windows-complete.zip'
     },
     {
       step: 2,
