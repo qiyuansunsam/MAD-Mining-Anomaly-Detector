@@ -35,11 +35,9 @@ backend/runs/
 training_results.json
 
 # Build outputs and distributions
-build/
 dist/
 mad-app/build/
 mad-app/dist/
-static/build/
 static/dist/
 *.exe
 *.dmg
