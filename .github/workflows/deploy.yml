@@ -40,6 +40,13 @@ jobs:
       - name: Build website
         run: cd website && npm run build
       
+      - name: Copy assets to build directory
+        run: |
+          cp -r samples website/build/
+          cp -r screenshots website/build/
+          echo "Assets copied successfully"
+          ls -la website/build/
+      
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
