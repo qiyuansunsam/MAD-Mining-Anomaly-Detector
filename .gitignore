@@ -1,0 +1,112 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Datasets and training data
+data2023_yolo/
+backend/datasets/
+*.cache
+
+# Model files - exclude ALL model files (too large for git)
+*.pt
+models/
+backend/models/
+mad-app/backend/models/
+
+# Training outputs and logs
+backend/runs/
+*.log
+training_results.json
+
+# Build outputs and distributions
+build/
+dist/
+mad-app/build/
+mad-app/dist/
+static/build/
+static/dist/
+*.exe
+*.dmg
+*.app
+*.deb
+*.rpm
+*.tar.gz
+*.zip
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.tmp/
+
+# Videos and large media files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Large files and archives (except LFS-tracked ones)
+*.tar
+*.gz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Application specific exclusions
+mad-app/node_modules/
+static/node_modules/
+# Keep package-lock.json files for reproducible builds
+# mad-app/package-lock.json
+# static/package-lock.json
+
+# Electron build artifacts
+mad-app/out/
+mad-app/.webpack/
+
+
+# Development artifacts
+debug_*.py
+# Keep validation and dataset results in backend folder
+!backend/validation_results.json
+!dataset_counts.json

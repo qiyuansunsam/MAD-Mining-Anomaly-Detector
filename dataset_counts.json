@@ -1,0 +1,45 @@
+{
+  "total_datasets": 6,
+  "total_images": 276008,
+  "total_train": 220802,
+  "total_val": 55206,
+  "total_test": 0,
+  "datasets": {
+    "coal_miner": {
+      "total_images": 61408,
+      "train": 49126,
+      "val": 12282,
+      "test": 0
+    },
+    "hydraulic_support": {
+      "total_images": 40090,
+      "train": 32072,
+      "val": 8018,
+      "test": 0
+    },
+    "large_coal": {
+      "total_images": 42034,
+      "train": 33626,
+      "val": 8408,
+      "test": 0
+    },
+    "mine_safety_helmet": {
+      "total_images": 40234,
+      "train": 32186,
+      "val": 8048,
+      "test": 0
+    },
+    "miner_behavior": {
+      "total_images": 49418,
+      "train": 39534,
+      "val": 9884,
+      "test": 0
+    },
+    "towline": {
+      "total_images": 42824,
+      "train": 34258,
+      "val": 8566,
+      "test": 0
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# Development files
+src/
+.git/
+.github/
+.gitignore
+README.md
+.env*
+
+# Backend training data (EXCLUDE)
+backend/datasets/
+backend/runs/
+backend/training.log
+backend/training_results.json
+backend/__pycache__/
+backend/**/*.pyc
+
+# TypeScript source
+*.ts
+*.tsx
+!*.d.ts
+
+# Build artifacts
+*.map
+.DS_Store
+Thumbs.db

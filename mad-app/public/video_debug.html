@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Debug Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .video-test { margin: 20px 0; padding: 20px; border: 2px solid #ddd; border-radius: 8px; }
+        .log { background: #f8f8f8; border: 1px solid #ddd; padding: 10px; margin: 10px 0; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+        .error { color: red; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+        .warning { color: orange; font-weight: bold; }
+        video { width: 100%; max-width: 400px; border: 1px solid #ccc; }
+        button { padding: 8px 16px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Compatibility Debug Tool</h1>
+        
+        <div class="video-test">
+            <h2>Browser Video Support</h2>
+            <div id="supportInfo" class="log"></div>
+        </div>
+        
+        <div class="video-test">
+            <h2>Test Video: mining_demo_30frames.mp4</h2>
+            <video id="testVideo1" controls>
+                <source src="demo_video/mining_demo_30frames.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div id="log1" class="log"></div>
+            <button class="btn-primary" onclick="playVideo('testVideo1')">Force Play</button>
+            <button class="btn-secondary" onclick="downloadVideo('demo_video/mining_demo_30frames.mp4')">Download</button>
+        </div>
+        
+        <div class="video-test">
+            <h2>Test Video: test_video.mp4</h2>
+            <video id="testVideo2" controls>
+                <source src="demo_video/test_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div id="log2" class="log"></div>
+            <button class="btn-primary" onclick="playVideo('testVideo2')">Force Play</button>
+            <button class="btn-secondary" onclick="downloadVideo('demo_video/test_video.mp4')">Download</button>
+        </div>
+        
+        <div class="video-test">
+            <h2>File Upload Test</h2>
+            <input type="file" id="fileInput" accept="video/mp4" onchange="testUploadedVideo()">
+            <video id="uploadedVideo" controls style="display:none;"></video>
+            <div id="uploadLog" class="log"></div>
+        </div>
+        
+        <div class="video-test">
+            <h2>Create Test Blob Video</h2>
+            <button class="btn-primary" onclick="createTestBlobVideo()">Create Blob Video</button>
+            <video id="blobVideo" controls style="display:none;"></video>
+            <div id="blobLog" class="log"></div>
+        </div>
+    </div>
+    
+    <script>
+        function logMessage(logId, message, type = 'info') {
+            const log = document.getElementById(logId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : '';
+            log.innerHTML += `<div class="${className}">${timestamp}: ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+            console.log(`${logId}: ${message}`);
+        }
+        
+        function setupVideoEvents(videoId, logId) {
+            const video = document.getElementById(videoId);
+            
+            // Add all possible video events
+            const events = [
+                'loadstart', 'durationchange', 'loadedmetadata', 'loadeddata', 
+                'progress', 'canplay', 'canplaythrough', 'play', 'pause', 
+                'seeking', 'seeked', 'ended', 'error', 'abort', 'emptied',
+                'stalled', 'suspend', 'waiting'
+            ];
+            
+            events.forEach(eventName => {
+                video.addEventListener(eventName, (e) => {
+                    let message = `Event: ${eventName}`;
+                    
+                    if (eventName === 'loadedmetadata') {
+                        message += ` - ${video.videoWidth}x${video.videoHeight}, duration: ${video.duration}s`;
+                    } else if (eventName === 'error') {
+                        message += ` - Code: ${video.error?.code}, Message: ${video.error?.message || 'Unknown error'}`;
+                        logMessage(logId, message, 'error');
+                        return;
+                    } else if (eventName === 'progress') {
+                        const buffered = video.buffered;
+                        if (buffered.length > 0) {
+                            const bufferedEnd = buffered.end(buffered.length - 1);
+                            const bufferedPercent = (bufferedEnd / video.duration) * 100;
+                            message += ` - Buffered: ${bufferedPercent.toFixed(1)}%`;
+                        }
+                    }
+                    
+                    const type = eventName === 'error' ? 'error' : 
+                                eventName === 'canplaythrough' ? 'success' : 'info';
+                    logMessage(logId, message, type);
+                });
+            });
+        }
+        
+        function playVideo(videoId) {
+            const video = document.getElementById(videoId);
+            video.play().then(() => {
+                logMessage(videoId.replace('testVideo', 'log'), 'Manual play succeeded', 'success');
+            }).catch(error => {
+                logMessage(videoId.replace('testVideo', 'log'), `Manual play failed: ${error.message}`, 'error');
+            });
+        }
+        
+        function downloadVideo(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = url.split('/').pop();
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        function testUploadedVideo() {
+            const fileInput = document.getElementById('fileInput');
+            const video = document.getElementById('uploadedVideo');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            logMessage('uploadLog', `File selected: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
+            
+            const objectUrl = URL.createObjectURL(file);
+            video.src = objectUrl;
+            video.style.display = 'block';
+            
+            setupVideoEvents('uploadedVideo', 'uploadLog');
+        }
+        
+        function createTestBlobVideo() {
+            logMessage('blobLog', 'Creating test blob video...');
+            
+            // Create a simple canvas-based video
+            const canvas = document.createElement('canvas');
+            canvas.width = 320;
+            canvas.height = 240;
+            const ctx = canvas.getContext('2d');
+            
+            const stream = canvas.captureStream(10); // 10 FPS
+            const recorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm;codecs=vp8'
+            });
+            
+            const chunks = [];
+            
+            recorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    chunks.push(event.data);
+                }
+            };
+            
+            recorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                
+                const video = document.getElementById('blobVideo');
+                video.src = url;
+                video.style.display = 'block';
+                
+                logMessage('blobLog', `Blob video created: ${blob.size} bytes`, 'success');
+                setupVideoEvents('blobVideo', 'blobLog');
+            };
+            
+            recorder.start();
+            
+            // Draw some frames
+            let frame = 0;
+            const drawFrame = () => {
+                ctx.fillStyle = `hsl(${frame * 10}, 50%, 50%)`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = 'white';
+                ctx.font = '20px Arial';
+                ctx.fillText(`Frame ${frame}`, 50, 120);
+                
+                frame++;
+                
+                if (frame < 30) { // 3 seconds at 10 FPS
+                    setTimeout(drawFrame, 100);
+                } else {
+                    recorder.stop();
+                }
+            };
+            
+            drawFrame();
+        }
+        
+        // Check browser video support
+        function checkVideoSupport() {
+            const video = document.createElement('video');
+            const supportInfo = document.getElementById('supportInfo');
+            
+            const formats = [
+                'video/mp4',
+                'video/mp4; codecs="avc1.42E01E"',
+                'video/mp4; codecs="avc1.4D001E"',
+                'video/mp4; codecs="mp4v.20.8"',
+                'video/mp4; codecs="mp4v.20.240"',
+                'video/webm',
+                'video/webm; codecs="vp8"',
+                'video/webm; codecs="vp9"',
+                'video/ogg; codecs="theora"'
+            ];
+            
+            let html = '<h3>Browser Video Format Support:</h3>';
+            formats.forEach(format => {
+                const support = video.canPlayType(format);
+                const supportText = support === 'probably' ? 'FULL' : 
+                                  support === 'maybe' ? 'PARTIAL' : 'NO';
+                const color = support === 'probably' ? 'green' : 
+                             support === 'maybe' ? 'orange' : 'red';
+                html += `<div style="color: ${color};">${format}: ${supportText}</div>`;
+            });
+            
+            html += '<h3>Browser Info:</h3>';
+            html += `<div>User Agent: ${navigator.userAgent}</div>`;
+            html += `<div>Platform: ${navigator.platform}</div>`;
+            
+            supportInfo.innerHTML = html;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkVideoSupport();
+            setupVideoEvents('testVideo1', 'log1');
+            setupVideoEvents('testVideo2', 'log2');
+        });
+    </script>
+</body>
+</html>
