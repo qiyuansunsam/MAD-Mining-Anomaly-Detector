@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code, Download, Play, Settings, Terminal, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Code, Download, Settings, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const Implementation = () => {
   const [activeTab, setActiveTab] = useState('installation');

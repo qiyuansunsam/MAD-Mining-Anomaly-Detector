@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Download, Mail, Github, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 const Home = () => {
@@ -9,19 +9,19 @@ const Home = () => {
   const videoRef = useRef(null);
 
   // Media items - demo video plus screenshots
-  const mediaItems = [
+  const mediaItems = useMemo(() => [
     { type: 'video', src: `${process.env.PUBLIC_URL}/demo-video.mp4`, title: 'Demo Video' },
     { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092407.png`, title: 'Screenshot 1' },
     { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092433.png`, title: 'Screenshot 2' },
     { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092512.png`, title: 'Screenshot 3' },
     { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092519.png`, title: 'Screenshot 4' },
     { type: 'image', src: `${process.env.PUBLIC_URL}/screenshots/Screenshot 2025-09-22 092706.png`, title: 'Screenshot 5' },
-  ];
+  ], []);
 
   useEffect(() => {
     // Set media items
     setScreenshots(mediaItems);
-  }, []);
+  }, [mediaItems]);
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? screenshots.length - 1 : prev - 1));

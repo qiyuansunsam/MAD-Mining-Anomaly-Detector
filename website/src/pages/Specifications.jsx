@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, Database, Zap, Shield, Monitor, Clock } from 'lucide-react';
+import { Cpu, Zap, Shield, Clock } from 'lucide-react';
 
 const Specifications = () => {
   const specs = [

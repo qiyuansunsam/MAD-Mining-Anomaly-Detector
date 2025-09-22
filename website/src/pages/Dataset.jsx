@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Database, Folder, Image, Tag, FileText, BarChart2, Info } from 'lucide-react';
+import { Database, Folder, Image, Tag, BarChart2, Info } from 'lucide-react';
 
 const Dataset = () => {
   const [selectedDataset, setSelectedDataset] = useState('coal_miner');
