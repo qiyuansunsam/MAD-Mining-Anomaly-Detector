@@ -44,6 +44,7 @@ jobs:
         run: |
           cp -r samples website/build/
           cp -r screenshots website/build/
+          cp demo-video.mp4 website/build/
           echo "Assets copied successfully"
           ls -la website/build/
       

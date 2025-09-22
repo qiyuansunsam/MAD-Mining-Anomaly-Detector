@@ -76,6 +76,9 @@ Thumbs.db
 *.mkv
 *.webm
 
+# Exception for demo video
+!demo-video.mp4
+
 # Environment variables
 .env
 .env.local
