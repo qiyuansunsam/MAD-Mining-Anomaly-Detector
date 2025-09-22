@@ -162,7 +162,7 @@ const Home = () => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector/releases/latest/download/anomaly-detector-windows-complete.zip"
+                href="https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector-/raw/main/mad-app/dist/anomaly-detector-windows-complete.zip"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary flex items-center space-x-2"
@@ -171,7 +171,7 @@ const Home = () => {
                 <span>Download Latest Release</span>
               </a>
               <a
-                href="https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector"
+                href="https://github.com/qiyuansunsam/MAD-Mining-Anomaly-Detector-"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary flex items-center space-x-2"
